@@ -175,3 +175,11 @@ def average_fulfillment_time():
             Order.shipped_date - Order.order_date,
         )
     ).filter(Order.shipped_date.isnot(None)).scalar())
+
+
+def get_customers_who_have_purchased_x_dollars(amount=500):
+    print('All customers who have purchased x dollars')
+    customers = db.session.query(Customer).join(Order).join(order_product).join(Product).group_by(Customer)\
+        .having(db.func.sum(Product.price) > amount)
+    for customer in customers:
+        print(customer.first_name)
