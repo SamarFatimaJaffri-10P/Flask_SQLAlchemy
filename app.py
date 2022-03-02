@@ -146,3 +146,10 @@ def get_pending_orders():
 def how_many_customers():
     print('How many customers?')
     print(Customer.query.count())
+
+
+def orders_with_code():
+    print('Orders with coupon code')
+    orders = Order.query.filter(Order.coupon_code.isnot(None)).filter(Order.coupon_code != 'FREESHIPPING').all()
+    for order in orders:
+        print(order.coupon_code)
