@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
-from datetime import datetime
+from datetime import datetime, timedelta
 from faker import Faker
 
 import random
@@ -131,6 +131,8 @@ def create_random_data():
 
 def get_orders_by(customer_id=1):
     print('Get Orders by Customer')
+
+    # Order. could also be written as db.session.query(Order).
     customer_orders = Order.query.filter_by(customer_id=customer_id).all()
     for order in customer_orders:
         print(order.order_date)
@@ -153,3 +155,14 @@ def orders_with_code():
     orders = Order.query.filter(Order.coupon_code.isnot(None)).filter(Order.coupon_code != 'FREESHIPPING').all()
     for order in orders:
         print(order.coupon_code)
+
+
+def revenue_in_last_x_days(x_days=30):
+    print(f'Revenue past {x_days} days')
+
+    # for complex query use db.session.query
+    print(db.session
+          .query(db.func.sum(Product.price))
+          .join(order_product).join(Order)
+          .filter(Order.order_date > (datetime.now() - timedelta(days=x_days)))
+          .scalar())
