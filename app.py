@@ -127,3 +127,17 @@ def create_random_data():
     add_orders()
     add_products()
     add_order_products()
+
+
+def get_orders_by(customer_id=1):
+    print('Get Orders by Customer')
+    customer_orders = Order.query.filter_by(customer_id=customer_id).all()
+    for order in customer_orders:
+        print(order.order_date)
+
+
+def get_pending_orders():
+    print('Pending Orders')
+    pending_orders = Order.query.filter(Order.shipped_date.is_(None)).order_by(Order.order_date.desc()).all()
+    for order in pending_orders:
+        print(order.order_date)
