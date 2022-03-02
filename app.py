@@ -166,3 +166,24 @@ def revenue_in_last_x_days(x_days=30):
           .join(order_product).join(Order)
           .filter(Order.order_date > (datetime.now() - timedelta(days=x_days)))
           .scalar())
+
+
+def average_fulfillment_time():
+    print('Average fulfillment time')
+    print(db.session.query(
+        db.func.avg(
+            Order.shipped_date - Order.order_date,
+        )
+    ).filter(Order.shipped_date.isnot(None)).scalar())
+    # print(db.session.query(
+    #     func.time(func.avg(func.date_part('EPOCH', Order.shipped_date) - func.date_part('EPOCH', Order.order_date))))
+    #       .filter(Order.shipped_date.isnot(None)).scalar()
+    #       )
+
+    # print(db.session.query(
+    #     datetime.fromtimestamp(
+    #         db.func.avg(
+    #             mktime(datetime(Order.shipped_date).timetuple()) - mktime(datetime(Order.order_date).timetuple())
+    #         )
+    #     )
+    # ).filter(Order.shipped_date.isnot(None)).scalar())
