@@ -141,3 +141,8 @@ def get_pending_orders():
     pending_orders = Order.query.filter(Order.shipped_date.is_(None)).order_by(Order.order_date.desc()).all()
     for order in pending_orders:
         print(order.order_date)
+
+
+def how_many_customers():
+    print('How many customers?')
+    print(Customer.query.count())
