@@ -49,3 +49,10 @@ Now for connecting to database goto psql shell again by using command `psql`
   \d order
   \d customer
   ```
+
+<details>
+<summary> Course link </summary>
+
+### Course link
+[Flask-SQLAlchemy Basics](https://courses.prettyprinted.com/courses/enrolled/1016334)
+</details>
